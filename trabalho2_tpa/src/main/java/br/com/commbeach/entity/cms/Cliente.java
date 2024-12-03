@@ -2,7 +2,7 @@ package br.com.commbeach.entity.cms;
 
 import java.io.Serializable;
 
-public class Cliente implements Serializable {
+public class Cliente implements Serializable, Comparable<Cliente>{
     // Serial Version UID para controle de versão da serialização
     private static final long serialVersionUID = 1L;
 
@@ -64,6 +64,10 @@ public class Cliente implements Serializable {
             throw new IllegalArgumentException("Credit score deve ser entre 0 e 100.");
         }
         this.creditScore = creditScore;
+    }
+
+    public int compareTo(Cliente outro) {
+        return this.nome.compareTo(outro.nome);
     }
 
     // Método para exibir as informações do cliente

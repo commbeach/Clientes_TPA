@@ -5,6 +5,8 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
+import java.io.*;
+
 
 public class BufferDeClientes implements Buffer<Cliente> {
 
@@ -23,6 +25,14 @@ public class BufferDeClientes implements Buffer<Cliente> {
         this.arquivoSequencial = arquivoSequencial;
     }
 
+    public void arqSequencial(String arq,String modo){
+        ArquivoCliente novo=new ArquivoCliente();
+        novo.file=new File(arq);
+        associaBuffer(novo);
+        this.inicializaBuffer(modo, arq);
+
+
+    }
     // Inicializa o buffer, abrindo o arquivo e preparando para leitura ou escrita
     @Override
     public void inicializaBuffer(String modo, String nomeArquivo) {

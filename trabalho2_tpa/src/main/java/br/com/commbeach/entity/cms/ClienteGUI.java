@@ -6,6 +6,7 @@ import javax.swing.table.TableCellRenderer;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 public class ClienteGUI {
 
@@ -27,7 +28,9 @@ public class ClienteGUI {
         // Painel de controle
         JPanel painelControle = new JPanel();
         JButton btnCarregar = new JButton("Carregar Clientes");
+        JButton btnOrdenar = new JButton("Ordenar Clientes");
         painelControle.add(btnCarregar);
+        painelControle.add(btnOrdenar);
         frame.add(painelControle, BorderLayout.NORTH);
 
         // Modelo da tabela
@@ -50,6 +53,18 @@ public class ClienteGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 carregarClientes();
+            }
+        });
+
+        btnOrdenar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    ordenarClientes();
+                } catch (ClassNotFoundException | IOException e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+                }
             }
         });
 
@@ -79,6 +94,21 @@ public class ClienteGUI {
         } else {
             JOptionPane.showMessageDialog(null, "Nome do arquivo não pode ser vazio.");
         }
+    }
+
+    private void ordenarClientes() throws ClassNotFoundException, IOException{
+        //String nomeArquivo = JOptionPane.showInputDialog(null, "Digite o nome do arquivo de clientes:");
+        //int tamanhoArquivo = Integer.parseInt(JOptionPane.showInputDialog(null, "Digite o tamanho do arquivo:"));
+        //new DivisorArquivo().divideLista(nomeArquivo,tamanhoArquivo);
+        //new OrdenarListas().ordenar("subLista0",tamanhoArquivo/10);
+        new DivisorArquivo().divideLista("teste1",100);
+        for(int i=0;i<10;i++){
+            new OrdenarListas().ordenar("subLista"+i,10);
+        }
+        new MergeListas().kwayMerge();
+
+
+
     }
 
     public static void main(String[] args) {

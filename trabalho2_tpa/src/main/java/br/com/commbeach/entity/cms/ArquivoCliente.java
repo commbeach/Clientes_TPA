@@ -7,7 +7,8 @@ import java.util.List;
 public class ArquivoCliente implements ArquivoSequencial<Cliente> {
     private ObjectInputStream inputStream;
     private ObjectOutputStream outputStream;
-    private File file;
+    public File file;
+    public int totalRegistros;
     
     @Override
     public void abrirArquivo(String nomeDoArquivo, String modoDeLeitura, Class<Cliente> classeBase) throws IOException {
@@ -50,6 +51,7 @@ public class ArquivoCliente implements ArquivoSequencial<Cliente> {
 
     @Override
     public void escreveNoArquivo(List<Cliente> dados) throws IOException {
+        this.totalRegistros+=dados.size();
         for (Cliente cliente : dados) {
             outputStream.writeObject(cliente);
         }
@@ -64,4 +66,7 @@ public class ArquivoCliente implements ArquivoSequencial<Cliente> {
             outputStream.close();
         }
     }
+
+   
+    
 }
