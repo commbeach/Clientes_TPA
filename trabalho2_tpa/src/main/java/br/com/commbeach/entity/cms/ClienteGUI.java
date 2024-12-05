@@ -29,8 +29,10 @@ public class ClienteGUI {
         JPanel painelControle = new JPanel();
         JButton btnCarregar = new JButton("Carregar Clientes");
         JButton btnOrdenar = new JButton("Ordenar Clientes");
+        JButton btnCadastrar = new JButton("Cadastrar Clientes");
         painelControle.add(btnCarregar);
         painelControle.add(btnOrdenar);
+        painelControle.add(btnCadastrar);
         frame.add(painelControle, BorderLayout.NORTH);
 
         // Modelo da tabela
@@ -68,6 +70,22 @@ public class ClienteGUI {
             }
         });
 
+        btnCadastrar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+               
+                    try {
+                        cadastrarClientes();
+                    } catch (IOException e1) {
+                        // TODO Auto-generated catch block
+                        e1.printStackTrace();
+                    }
+                
+            }
+        });
+
+        
+
         frame.setVisible(true);
     }
 
@@ -96,16 +114,52 @@ public class ClienteGUI {
         }
     }
 
+    private void cadastrarClientes() throws IOException {
+        // Solicita o nome do arquivo
+        String nomeArquivo = JOptionPane.showInputDialog(null, "Digite o nome do arquivo de clientes:");
+        int numero = Integer.valueOf(JOptionPane.showInputDialog(null, "Digite o número de clientes:"));
+
+        GeradorDeArquivosDeClientes gerador = new GeradorDeArquivosDeClientes();
+
+        // Gerar um grande dataset de clientes
+        gerador.geraGrandeDataSetDeClientes(nomeArquivo, numero);
+            
+    
+    }
+
+
     private void ordenarClientes() throws ClassNotFoundException, IOException{
-        //String nomeArquivo = JOptionPane.showInputDialog(null, "Digite o nome do arquivo de clientes:");
-        //int tamanhoArquivo = Integer.parseInt(JOptionPane.showInputDialog(null, "Digite o tamanho do arquivo:"));
+        String nome = JOptionPane.showInputDialog(null, "Digite o nome do arquivo de clientes:");
+        int tamanhoArquivo = Integer.parseInt(JOptionPane.showInputDialog(null, "Digite o tamanho do arquivo:"));
         //new DivisorArquivo().divideLista(nomeArquivo,tamanhoArquivo);
         //new OrdenarListas().ordenar("subLista0",tamanhoArquivo/10);
-        new DivisorArquivo().divideLista("teste1",100);
+        new DivisorArquivo().divideLista(nome,tamanhoArquivo);
         for(int i=0;i<10;i++){
-            new OrdenarListas().ordenar("subLista"+i,10);
+            new OrdenarListas().ordenar("subLista"+i,tamanhoArquivo/10);
         }
         new MergeListas().kwayMerge();
+
+        String nomeArquivo = "listaOrdenada";
+
+        if (nomeArquivo != null && !nomeArquivo.trim().isEmpty()) {
+            // Inicializa o buffer e carrega os dados usando ArquivoCliente
+            bufferDeClientes.associaBuffer(new ArquivoCliente());
+            bufferDeClientes.inicializaBuffer("leitura", nomeArquivo);
+
+            modeloTabela.setRowCount(0); // Limpa a tabela antes de carregar novos dados
+
+            // Lê os clientes do buffer e adiciona à tabela
+            Cliente cliente;
+            int contador = 1; // Contador de linhas
+            while ((cliente = bufferDeClientes.proximoCliente()) != null) {
+                modeloTabela.addRow(new Object[]{contador++, cliente.getNome(), cliente.getSobrenome(), cliente.getEndereco(), cliente.getTelefone(), cliente.getCreditScore()});
+            }
+
+            // Fecha o buffer
+            bufferDeClientes.fechaBuffer();
+        } else {
+            JOptionPane.showMessageDialog(null, "Nome do arquivo não pode ser vazio.");
+        }
 
 
 

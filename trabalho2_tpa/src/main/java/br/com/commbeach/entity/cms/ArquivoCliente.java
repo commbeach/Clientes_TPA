@@ -57,6 +57,11 @@ public class ArquivoCliente implements ArquivoSequencial<Cliente> {
         }
     }
 
+    public void escreveUm(Cliente cliente) throws IOException {
+            outputStream.writeObject(cliente);
+
+    }
+
     @Override
     public void fechaArquivo() throws IOException {
         if (inputStream != null) {
@@ -66,6 +71,7 @@ public class ArquivoCliente implements ArquivoSequencial<Cliente> {
             outputStream.close();
         }
     }
+
 
    
     
