@@ -130,9 +130,10 @@ public class ClienteGUI {
 
     private void ordenarClientes() throws ClassNotFoundException, IOException{
         String nome = JOptionPane.showInputDialog(null, "Digite o nome do arquivo de clientes:");
-        int tamanhoArquivo = Integer.parseInt(JOptionPane.showInputDialog(null, "Digite o tamanho do arquivo:"));
-        //new DivisorArquivo().divideLista(nomeArquivo,tamanhoArquivo);
-        //new OrdenarListas().ordenar("subLista0",tamanhoArquivo/10);
+        
+        ArquivoCliente contar = new ArquivoCliente();
+        contar.abrirArquivo(nome, "leitura", Cliente.class);
+        int tamanhoArquivo=contar.count();
         new DivisorArquivo().divideLista(nome,tamanhoArquivo);
         for(int i=0;i<10;i++){
             new OrdenarListas().ordenar("subLista"+i,tamanhoArquivo/10);

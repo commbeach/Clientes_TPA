@@ -3,6 +3,7 @@ package br.com.commbeach.entity.cms;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class ArquivoCliente implements ArquivoSequencial<Cliente> {
     private ObjectInputStream inputStream;
@@ -72,6 +73,28 @@ public class ArquivoCliente implements ArquivoSequencial<Cliente> {
         }
     }
 
+    //metodo que retorna tamanho do arquivo 
+    public int count() throws ClassNotFoundException, IOException {
+        int count = 0;
+      
+      
+            Cliente cliente = null; 
+            while (true) {
+                try {
+                    cliente = (Cliente) inputStream.readObject(); 
+                    count++; 
+                   
+                } catch (EOFException e) {     
+                    
+                    break;
+                }
+            }
+        
+        this.fechaArquivo();
+        return count; 
+    }
+
+   
 
    
     
