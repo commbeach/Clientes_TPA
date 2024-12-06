@@ -1,4 +1,6 @@
+//classe que junta as sublistas
 package br.com.commbeach.entity.cms;
+
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -13,16 +15,15 @@ public class MergeListas {
     BufferDeClientes saida;
     Queue<Cliente> fila;
 
+//função que inicializa e setta os buffers
     public void inicializaBuffer(){
         Queue<Cliente> fila =new PriorityQueue<>();
         this.buffers=new BufferDeClientes[10];
         for(int i=0;i<10;i++){
-            //System.out.println("entrou aqui1");
             String arquivo = "subLista"+i;
             BufferDeClientes novo_buffer = new BufferDeClientes();
             this.buffers[i]=novo_buffer;
             novo_buffer.arqSequencial(arquivo, "leitura");
-            //System.out.println("entrou aqui2");
             novo_buffer.carregaBuffer();
             Cliente cliente=novo_buffer.proximoCliente();
             fila.add(cliente);
@@ -30,18 +31,14 @@ public class MergeListas {
        this.fila=fila;
         BufferDeClientes saida = new BufferDeClientes();
         saida.arqSequencial("listaOrdenada","escrita");
-        //System.out.println("entrou aqui3");
         this.saida=saida;
-
-
-    
     }
 
+    //função que realiza o 10-wayMerge das listas    
     public void kwayMerge(){
         inicializaBuffer();
         while(!this.fila.isEmpty()){
             for(int i=0;i<10;i++){
-                //this.saida.adicionaAoBuffer(this.fila.poll());
                 this.buffers[i].carregaBuffer();
                 Cliente cliente=this.buffers[i].proximoCliente();
                 if(cliente!=null){

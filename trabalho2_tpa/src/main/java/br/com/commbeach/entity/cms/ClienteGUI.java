@@ -130,14 +130,17 @@ public class ClienteGUI {
 
     private void ordenarClientes() throws ClassNotFoundException, IOException{
         String nome = JOptionPane.showInputDialog(null, "Digite o nome do arquivo de clientes:");
-        
+        //conta o tamanho da lista 
         ArquivoCliente contar = new ArquivoCliente();
         contar.abrirArquivo(nome, "leitura", Cliente.class);
         int tamanhoArquivo=contar.count();
+        //divide a lista
         new DivisorArquivo().divideLista(nome,tamanhoArquivo);
         for(int i=0;i<10;i++){
+            //ordena as listas via bubble sort
             new OrdenarListas().ordenar("subLista"+i,tamanhoArquivo/10);
         }
+        //junta as 10 listas
         new MergeListas().kwayMerge();
 
         String nomeArquivo = "listaOrdenada";

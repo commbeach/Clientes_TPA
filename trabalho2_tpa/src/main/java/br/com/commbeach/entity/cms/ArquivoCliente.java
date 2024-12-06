@@ -77,7 +77,6 @@ public class ArquivoCliente implements ArquivoSequencial<Cliente> {
     public int count() throws ClassNotFoundException, IOException {
         int count = 0;
       
-      
             Cliente cliente = null; 
             while (true) {
                 try {
